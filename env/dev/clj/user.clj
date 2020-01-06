@@ -6,7 +6,10 @@
     [clojure.spec.alpha :as s]
     [expound.alpha :as expound]
     [mount.core :as mount]
-    [shapey-shifty.core :refer [start-app]]))
+    [shapey-shifty.core :refer [start-app]]
+    [shapey-shifty.db.core]
+    [conman.core :as conman]
+    [luminus-migrations.core :as migrations]))
 
 (alter-var-root #'s/*explain-out* (constantly expound/printer))
 
@@ -28,5 +31,33 @@
   []
   (stop)
   (start))
+
+(defn restart-db
+  "Restarts database."
+  []
+  (mount/stop #'shapey-shifty.db.core/*db*)
+  (mount/start #'shapey-shifty.db.core/*db*)
+  (binding [*ns* 'shapey-shifty.db.core]
+    (conman/bind-connection shapey-shifty.db.core/*db* "sql/queries.sql")))
+
+(defn reset-db
+  "Resets database."
+  []
+  (migrations/migrate ["reset"] (select-keys env [:database-url])))
+
+(defn migrate
+  "Migrates database up for all outstanding migrations."
+  []
+  (migrations/migrate ["migrate"] (select-keys env [:database-url])))
+
+(defn rollback
+  "Rollback latest database migration."
+  []
+  (migrations/migrate ["rollback"] (select-keys env [:database-url])))
+
+(defn create-migration
+  "Create a new up and down migration file with a generated timestamp and `name`."
+  [name]
+  (migrations/create name (select-keys env [:database-url])))
 
 

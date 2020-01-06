@@ -1,6 +1,7 @@
 (ns shapey-shifty.routes.home
   (:require
    [shapey-shifty.layout :as layout]
+   [shapey-shifty.db.core :as db]
    [clojure.java.io :as io]
    [shapey-shifty.middleware :as middleware]
    [ring.util.response]
