@@ -6,6 +6,7 @@
   :dependencies [[ch.qos.logback/logback-classic "1.2.3"]
                  [cheshire "5.9.0"]
                  [clojure.java-time "0.3.2"]
+                 [org.clojure/data.json "0.2.7"]
                  [conman "0.8.4"]
                  [cprop "0.1.15"]
                  [expound "0.8.3"]
@@ -33,7 +34,7 @@
                  [selmer "1.12.18"]]
 
   :min-lein-version "2.0.0"
-  
+
   :source-paths ["src/clj"]
   :test-paths ["test/clj"]
   :resource-paths ["resources"]
@@ -59,7 +60,7 @@
                                  [ring/ring-mock "0.4.0"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.24.1"]
                                  [jonase/eastwood "0.3.5"]]
-                  
+
                   :source-paths ["env/dev/clj"]
                   :resource-paths ["env/dev/resources"]
                   :repl-options {:init-ns user}
