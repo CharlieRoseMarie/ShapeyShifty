@@ -1,11 +1,11 @@
 (ns shapey-shifty.test.handler
   (:require
-    [clojure.test :refer :all]
-    [ring.mock.request :refer :all]
-    [shapey-shifty.handler :refer :all]
-    [shapey-shifty.middleware.formats :as formats]
-    [muuntaja.core :as m]
-    [mount.core :as mount]))
+   [clojure.test :refer :all]
+   [ring.mock.request :refer :all]
+   [shapey-shifty.handler :refer :all]
+   [shapey-shifty.middleware.formats :as formats]
+   [muuntaja.core :as m]
+   [mount.core :as mount]))
 
 (defn parse-json [body]
   (m/decode formats/instance "application/json" body))
