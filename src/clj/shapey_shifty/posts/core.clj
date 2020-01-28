@@ -9,10 +9,10 @@
   (assoc post :type post-type))
 
 (defn set-author [post author]
-  (assoc-in post [:properties :author] author)) 
+  (assoc-in post [:properties :author] author))
 
 (defn set-name [post post-name]
   (assoc-in post [:properties :name] post-name))
 
 (defn set-content [post post-content]
- (assoc-in post [:properties :content] post-content)) 
+  (assoc-in post [:properties :content] post-content))
