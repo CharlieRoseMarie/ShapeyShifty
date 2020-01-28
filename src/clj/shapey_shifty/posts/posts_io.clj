@@ -1,6 +1,5 @@
 (ns shapey-shifty.posts.posts-io
   (:require 
-    [clojure.data.json :as json]
     [shapey-shifty.posts.core :as core]))
 
 (def post-filename "post.json")
@@ -22,9 +21,6 @@
          (filter #(.isDirectory %))
          count
          dec)))
-
-(defn jsonify-post [post]
-  (json/write-str post))
 
 (defn write-post [post dt-path]
   (let [path (pathmap-to-path dt-path)
