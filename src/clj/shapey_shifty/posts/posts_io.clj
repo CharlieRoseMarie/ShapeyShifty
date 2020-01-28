@@ -9,7 +9,7 @@
   {:year year :month month :day day})
 
 (defn pathmap-to-path [{:keys [year month day]}]
-  (format "%d/%d/%d" year month day))
+  (format "%s/%s/%s" year month day))
 
 (defn count-posts-in-date [dt-path]
   (let [path (pathmap-to-path dt-path)
@@ -29,7 +29,7 @@
     (spit final-path post)))
 
 (defn read-post [dt-path n]
-  (let [path (format "%s/%s/%d/%s" base-path (pathmap-to-path dt-path) n post-filename)
+  (let [path (format "%s/%s/%s/%s" base-path (pathmap-to-path dt-path) n post-filename)
         f (clojure.java.io/file path)]
     (when (.exists f)
       (-> f
