@@ -16,3 +16,4 @@ profiles.clj
 /log
 *.swp
 resources/posts/
+/resources/author/
