@@ -1,13 +1,27 @@
 (ns shapey-shifty.routes.home
   (:require
-   [shapey-shifty.layout :as layout]
-   [clojure.java.io :as io]
-   [shapey-shifty.middleware :as middleware]
-   [ring.util.response]
-   [ring.util.http-response :as response]))
+    [shapey-shifty.layout :as layout]
+    [clojure.java.io :as io]
+    [shapey-shifty.middleware :as middleware]
+    [ring.util.response]
+    [shapey-shifty.posts.core :as posts]
+    [shapey-shifty.posts.posts-io :as post-io]
+    [shapey-shifty.routes.post-router :as post-router]
+    [ring.util.http-response :as response]))
+
+(def p (atom 0))
 
 (defn home-page [request]
   (layout/render request "home.html" {:docs (-> "docs/docs.md" io/resource slurp)}))
+
+(defn test-view [request]
+  (layout/render request "post.html" {:post (-> (posts/create-empty-post) (posts/set-content "Hey there everyone!") (posts/set-name "Yolo") :properties)}))
+
+(defn post-view [request]
+  (let [{:keys [path-params query-params body-params]} request
+       {:keys [year month day n]} path-params]
+    (do (reset! p request)
+     (layout/render request "post.html" {:post (:properties (post-router/get-post year month day n))}))))
 
 (defn about-page [request]
   (layout/render request "about.html"))
@@ -17,5 +31,6 @@
    {:middleware [middleware/wrap-csrf
                  middleware/wrap-formats]}
    ["/" {:get home-page}]
+   ["/blog/:year/:month/:day/:n" {:get post-view}]
    ["/about" {:get about-page}]])
 
