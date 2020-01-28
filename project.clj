@@ -41,7 +41,8 @@
   :target-path "target/%s/"
   :main ^:skip-aot shapey-shifty.core
 
-  :plugins []
+  :plugins [                 [lein-cljfmt "0.6.6"]
+            ]
 
   :profiles
   {:uberjar {:omit-source true
