@@ -1,8 +1,11 @@
 {
-  :first-name nil
-  :family-name nil
-  :rel-me []
-  :job-title nil
-  :org nil
-  :photo nil
+  :card {
+    :first-name nil
+    :family-name nil
+    :rel-me []
+    :job-title nil
+    :org nil
+    :photo nil
+  }
+  :password-hash nil
 }

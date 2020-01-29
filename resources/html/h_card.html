@@ -1,0 +1,18 @@
+{% block card %}
+
+<div class="h-card">
+	<img class="u-photo" src="{{ card.photo }}" width="200" />
+	<p>{{ card.first-name }} {{ card.family-name }}</p>
+	<ul>
+		{% for contact in card.rel-me %}
+		<li>
+			<a class="u-url" rel="me" href="{{ contact.url}}">
+				{{ contact.description }}
+			</a>
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+
+{% endblock %}
+

@@ -7,6 +7,7 @@
     [shapey-shifty.posts.core :as posts]
     [shapey-shifty.posts.posts-io :as post-io]
     [shapey-shifty.routes.post-router :as post-router]
+    [shapey-shifty.authors.author-core :as author]
     [ring.util.http-response :as response]))
 
 (def p (atom 0))
@@ -19,12 +20,15 @@
 
 (defn post-view [request]
   (let [{:keys [path-params query-params body-params]} request
-       {:keys [year month day n]} path-params]
+        {:keys [year month day n]} path-params]
     (do (reset! p request)
-     (layout/render request "post.html" {:post (:properties (post-router/get-post year month day n))}))))
+        (layout/render request "post.html" {:post (:properties (post-router/get-post year month day n))}))))
 
 (defn about-page [request]
-  (layout/render request "about.html"))
+  (layout/render request "h_card.html" 
+                 {
+                  :card (:card (author/load-author (get-in request [:path-params :name])))
+                  }))
 
 (defn home-routes []
   [""
@@ -32,5 +36,5 @@
                  middleware/wrap-formats]}
    ["/" {:get home-page}]
    ["/blog/:year/:month/:day/:n" {:get post-view}]
-   ["/about" {:get about-page}]])
+   ["/about/:name" {:get about-page}]])
 
