@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 <article class="h-entry">
+	<div class="author-info">
+		{% include "tiny_h_card.html" %}
+	</div>
 	<h1 class="p-name">{{post.name}}</h1>
 	<div class="e-content">
 		<p>{{post.content}}</p>
