@@ -3,8 +3,7 @@
    [shapey-shifty.posts.core :as core]
    [shapey-shifty.authors.author-core :as author]
    [clojure.java.io :as io]
-   [clojure.edn :as edn]
-   ))
+   [clojure.edn :as edn]))
 
 (def post-filename "post.edn")
 (def base-posts-path "resources/posts")
@@ -13,7 +12,7 @@
   {:year year :month month :day day})
 
 (defn pathmap-to-path [{:keys [year month day]}]
-  (format "%s/%s/%s" year month day))
+  (format "%d/%d/%d" year month day))
 
 (defn count-posts-in-date [dt-path]
   (let [path (pathmap-to-path dt-path)
@@ -28,7 +27,7 @@
 (defn write-post [post dt-path]
   (let [path (pathmap-to-path dt-path)
         increment (inc (count-posts-in-date dt-path))
-        final-path (format "%d/%d/%d/%d" base-posts-path path increment post-filename)]
+        final-path (format "%s/%s/%s/%s" base-posts-path path increment post-filename)]
     (io/make-parents final-path)
     (spit final-path (pr-str post))))
 
@@ -38,11 +37,21 @@
         card (get author :card)]
     (assoc post :author card)))
 
+(defn read-all-posts
+  ([]
+   (read-all-posts base-posts-path))
+  ([path]
+   (->> path
+        io/file
+        file-seq
+        (filter #(.isFile %))
+        (map #(read-post %)))))
+
 (defn read-post
   ([file]
    (when (.exists file)
      (-> file slurp edn/read-string assoc-author)))
   ([dt-path n]
-   (let [path (format "%s/%s/%s/%s" base-posts-path (pathmap-to-path dt-path) n post-filename)
+   (let [path (format "%s/%s/%d/%s" base-posts-path (pathmap-to-path dt-path) n post-filename)
          f (io/file path)]
      (read-post f))))

@@ -18,4 +18,4 @@
         file-seq
         (filter #(.isFile %))
         (mapv #(parsing-fn %))
-        (apply add-post-to-index))))
+        (map #(add-post-to-index %)))))
