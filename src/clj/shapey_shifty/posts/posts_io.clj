@@ -3,6 +3,7 @@
    [shapey-shifty.posts.core :as core]
    [shapey-shifty.authors.author-core :as author]
    [clojure.java.io :as io]
+   [clojure.edn :as edn]
    ))
 
 (def post-filename "post.edn")
@@ -40,7 +41,7 @@
 (defn read-post
   ([file]
    (when (.exists file)
-     (-> file slurp read-string assoc-author)))
+     (-> file slurp edn/read-string assoc-author)))
   ([dt-path n]
    (let [path (format "%s/%s/%s/%s" base-posts-path (pathmap-to-path dt-path) n post-filename)
          f (io/file path)]
