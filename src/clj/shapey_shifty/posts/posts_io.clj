@@ -35,12 +35,11 @@
         card (get author :card)]
     (assoc post :author card)))
 
-(defn read-post [dt-path n]
-  (let [path (format "%s/%s/%s/%s" base-posts-path (pathmap-to-path dt-path) n post-filename)
-        f (clojure.java.io/file path)]
-    (when (.exists f)
-      (-> f
-          slurp
-          read-string
-          assoc-author
-          ))))
+(defn read-post
+  ([file]
+   (when (.exists file)
+     (-> file slurp read-string assoc-author)))
+  ([dt-path n]
+   (let [path (format "%s/%s/%s/%s" base-posts-path (pathmap-to-path dt-path) n post-filename)
+         f (clojure.java.io/file path)]
+     (read-post f))))
