@@ -8,6 +8,7 @@
                  [clojure.java-time "0.3.2"]
                  [org.clojure/data.json "0.2.7"]
                  [cprop "0.1.15"]
+                 [clucy "0.4.0"]
                  [expound "0.8.3"]
                  [funcool/struct "1.4.0"]
                  [luminus-jetty "0.1.7"]
