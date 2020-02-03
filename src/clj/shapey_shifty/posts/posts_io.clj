@@ -3,7 +3,7 @@
    [shapey-shifty.posts.core :as core]
    [shapey-shifty.authors.author-core :as author]))
 
-(def post-filename "post.json")
+(def post-filename "post.edn")
 (def base-posts-path "resources/posts")
 
 (defn create-path-by-date [year month day]
