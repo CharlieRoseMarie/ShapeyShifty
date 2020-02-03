@@ -25,9 +25,9 @@
 (defn write-post [post dt-path]
   (let [path (pathmap-to-path dt-path)
         increment (inc (count-posts-in-date dt-path))
-        final-path (format "%s/%s/%d/%s" base-posts-path path increment post-filename)]
+        final-path (format "%d/%d/%d/%d" base-posts-path path increment post-filename)]
     (clojure.java.io/make-parents final-path)
-    (spit final-path post)))
+    (spit final-path (pr-str post))))
 
 (defn assoc-author [post]
   (let [filename (get-in post [:properties :author])
