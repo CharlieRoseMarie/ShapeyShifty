@@ -1,14 +1,14 @@
 (ns shapey-shifty.routes.home
   (:require
-    [shapey-shifty.layout :as layout]
-    [clojure.java.io :as io]
-    [shapey-shifty.middleware :as middleware]
-    [ring.util.response]
-    [shapey-shifty.posts.core :as posts]
-    [shapey-shifty.posts.posts-io :as post-io]
-    [shapey-shifty.routes.post-router :as post-router]
-    [shapey-shifty.authors.author-core :as author]
-    [ring.util.http-response :as response]))
+   [shapey-shifty.layout :as layout]
+   [clojure.java.io :as io]
+   [shapey-shifty.middleware :as middleware]
+   [ring.util.response]
+   [shapey-shifty.posts.core :as posts]
+   [shapey-shifty.posts.posts-io :as post-io]
+   [shapey-shifty.routes.post-router :as post-router]
+   [shapey-shifty.authors.author-core :as author]
+   [ring.util.http-response :as response]))
 
 (defn home-page [request]
   (layout/render request "home.html" {:docs (-> "docs/docs.md" io/resource slurp)}))
@@ -24,10 +24,8 @@
                                         :card (:author post)})))
 
 (defn about-page [request]
-  (layout/render request "h_card.html" 
-                 {
-                  :card (:card (author/load-author (get-in request [:path-params :name])))
-                  }))
+  (layout/render request "h_card.html"
+                 {:card (:card (author/load-author (get-in request [:path-params :name])))}))
 
 (defn home-routes []
   [""

@@ -4,10 +4,10 @@
 
 (def base-path "resources/author")
 
-(defn create-author [] 
+(defn create-author []
   {:card nil :password-hash nil})
 
-(defn load-author [author-name] 
+(defn load-author [author-name]
   (let [path (format "%s/%s" base-path author-name)
         file (io/file path)]
     (when (.exists file)
@@ -16,9 +16,9 @@
            edn/read-string))))
 
 (defn load-all-authors []
-    (->> base-path 
-        io/file
-        file-seq
-        (filter #(.isFile %))
-        (map #(->> % slurp edn/read-string))))
+  (->> base-path
+       io/file
+       file-seq
+       (filter #(.isFile %))
+       (map #(->> % slurp edn/read-string))))
 

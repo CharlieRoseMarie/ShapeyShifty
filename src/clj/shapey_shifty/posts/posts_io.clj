@@ -1,7 +1,7 @@
 (ns shapey-shifty.posts.posts-io
   (:require
-    [shapey-shifty.posts.core :as core]
-    [shapey-shifty.authors.author-core :as author]))
+   [shapey-shifty.posts.core :as core]
+   [shapey-shifty.authors.author-core :as author]))
 
 (def post-filename "post.json")
 (def base-posts-path "resources/posts")
