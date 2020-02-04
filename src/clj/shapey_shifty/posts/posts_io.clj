@@ -37,6 +37,15 @@
         card (get author :card)]
     (assoc post :author card)))
 
+(defn read-post
+  ([file]
+   (when (.exists file)
+     (-> file slurp edn/read-string assoc-author)))
+  ([dt-path n]
+   (let [path (format "%s/%s/%d/%s" base-posts-path (pathmap-to-path dt-path) n post-filename)
+         f (io/file path)]
+     (read-post f))))
+
 (defn read-all-posts
   ([]
    (read-all-posts base-posts-path))
@@ -46,12 +55,3 @@
         file-seq
         (filter #(.isFile %))
         (map #(read-post %)))))
-
-(defn read-post
-  ([file]
-   (when (.exists file)
-     (-> file slurp edn/read-string assoc-author)))
-  ([dt-path n]
-   (let [path (format "%s/%s/%d/%s" base-posts-path (pathmap-to-path dt-path) n post-filename)
-         f (io/file path)]
-     (read-post f))))

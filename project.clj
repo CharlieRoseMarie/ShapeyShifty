@@ -38,9 +38,6 @@
   :resource-paths ["resources"]
   :target-path "target/%s/"
   :main ^:skip-aot shapey-shifty.core
-
-  :plugins [[lein-cljfmt "0.6.6"]]
-
   :profiles
   {:uberjar {:omit-source true
              :aot :all
@@ -57,6 +54,7 @@
                                  [ring/ring-devel "1.8.0"]
                                  [ring/ring-mock "0.4.0"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.24.1"]
+                                 [lein-cljfmt "0.6.6"]
                                  [jonase/eastwood "0.3.5"]]
 
                   :source-paths ["env/dev/clj"]
