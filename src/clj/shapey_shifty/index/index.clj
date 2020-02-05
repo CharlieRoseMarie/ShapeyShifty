@@ -1,5 +1,6 @@
 (ns shapey-shifty.index.index
   (:require [clucy.core :as clucy]
+            [clojure.java.io :as io]
             [shapey-shifty.posts.posts-io :as post-io]))
 
 (def index-path (atom "resources/index"))
@@ -14,7 +15,7 @@
    (crawl-posts! path post-io/read-post))
   ([path parsing-fn]
    (->> path
-        clojure.java.io/file
+        io/file
         file-seq
         (filter #(.isFile %))
         (mapv #(parsing-fn %))
