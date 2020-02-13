@@ -1,12 +1,12 @@
 (ns shapey-shifty.core
   (:require
-    [shapey-shifty.handler :as handler]
-    [shapey-shifty.nrepl :as nrepl]
-    [luminus.http-server :as http]
-    [shapey-shifty.config :refer [env]]
-    [clojure.tools.cli :refer [parse-opts]]
-    [clojure.tools.logging :as log]
-    [mount.core :as mount])
+   [shapey-shifty.handler :as handler]
+   [shapey-shifty.nrepl :as nrepl]
+   [luminus.http-server :as http]
+   [shapey-shifty.config :refer [env]]
+   [clojure.tools.cli :refer [parse-opts]]
+   [clojure.tools.logging :as log]
+   [mount.core :as mount])
   (:gen-class))
 
 ;; log uncaught exceptions in threads
