@@ -3,6 +3,12 @@
    [shapey-shifty.posts.core :as core]
    [shapey-shifty.authors.author-core :as author]))
 
+(defprotocol PostKeeper
+  (create-post [this post])
+  (get-posts [this])
+  (update-post [this post])
+  (delete-post [this post]))
+
 (def post-filename "post.json")
 (def base-posts-path "resources/posts")
 
@@ -43,3 +49,21 @@
    (let [path (format "%s/%s/%s/%s" base-posts-path (pathmap-to-path dt-path) n post-filename)
          f (clojure.java.io/file path)]
      (read-post f))))
+
+(defn datetime-filename-resolver [base-path filename post]
+  (if (:filename post) (:filename post)))
+
+(defrecord FileBasedPostKeeper [filename-resolver base-path filename]
+  PostKeeper
+  (create-post [this post]
+    (let [path (str base-path (filename-resolver post) filename)]
+      (clojure.java.io/make-parents path)
+      (spit path post)))
+  (get-posts [this] (->> base-path
+                         clojure.java.io/file
+                         file-seq
+                         (filter #(.isDirectory %))
+                         (filter #(.exists %))
+                         read-post))
+  (update-post [this post] nil)
+  (delete-post [this post] nil))

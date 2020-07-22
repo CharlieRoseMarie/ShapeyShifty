@@ -2,6 +2,7 @@
   (:require
    [shapey-shifty.handler :as handler]
    [shapey-shifty.nrepl :as nrepl]
+   [shapey-shifty.index.index :as index]
    [luminus.http-server :as http]
    [shapey-shifty.config :refer [env]]
    [clojure.tools.cli :refer [parse-opts]]
@@ -20,6 +21,10 @@
 (def cli-options
   [["-p" "--port PORT" "Port number"
     :parse-fn #(Integer/parseInt %)]])
+
+(mount/defstate index :start (if-let [path (env :index-path)]
+                               (index/create-index path)
+                               (index/create-index "resources/index.edn")))
 
 (mount/defstate ^{:on-reload :noop} http-server
   :start

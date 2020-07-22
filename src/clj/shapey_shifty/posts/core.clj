@@ -1,6 +1,32 @@
-(ns shapey-shifty.posts.core)
+(ns shapey-shifty.posts.core
+  (:require [clojure.spec.alpha :as s]))
 
-(defn create-empty-post [] {:type nil :properties {:name nil :author nil :published nil :content nil}})
+(def posts (atom []))
+
+(defn create-empty-post [] {::type :note ::key (java.util.UUID/randomUUID) ::content ""
+                            ::properties
+                            {::name nil
+                             ::author nil
+                             ::published nil
+                             ::stub nil
+                             ::filename nil
+                             ::status :preview}})
+
+(s/def ::name (s/nilable string?))
+(s/def ::author string?)
+(s/def ::published keyword?)
+(s/def ::content string?)
+(s/def ::stub string?)
+(s/def ::filename (s/nilable string?))
+(s/def ::type keyword?)
+(s/def ::key uuid?)
+(s/def ::status keyword?)
+
+(s/def ::properties
+  (s/keys :req [::name ::author ::published ::stub ::filename]))
+
+(s/def ::post
+  (s/keys :req [::type ::properties ::content]))
 
 (defn set-publish-date [post date]
   (assoc-in post [:properties :published] date))
