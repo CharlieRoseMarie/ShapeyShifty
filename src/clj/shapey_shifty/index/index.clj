@@ -1,15 +1,16 @@
 (ns shapey-shifty.index.index
-  (:require [clucy.core :as clucy]
-            [duratom.core :as dur]
-            [shapey-shifty.posts.posts-io :as post-io]))
+  (:require
+   [clojure.spec.alpha :as s]
+   [duratom.core :as dur]
+   [shapey-shifty.posts.posts-io :as post-io]))
 
 (def index-path (atom "resources/index"))
+
+(s/def ::index (s/keys :req [::filename ::key ::created-date ::stub]))
 
 (defn create-index [index-path]
   (let [index (dur/duratom :local-file :file-path index-path :init [])]
     index))
-
-(def post-index (clucy/disk-index @index-path))
 
 (defn add-post-to-index [index post]
   (let [metadata (dissoc post :content)]
