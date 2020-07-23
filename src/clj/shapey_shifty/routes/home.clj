@@ -31,5 +31,4 @@
    {:middleware @middleware}
    ["/" {:get home-page}]
    ["/about/:name" {:get about-page}]
-   ["/:year/:month/:day/:n" {:get post-view}]])
-
+   ["/blog/:year/:month/:day/:n" {:get post-view}]])

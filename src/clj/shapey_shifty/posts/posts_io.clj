@@ -3,13 +3,7 @@
    [shapey-shifty.posts.core :as core]
    [shapey-shifty.authors.author-core :as author]))
 
-(defprotocol PostKeeper
-  (create-post [this post])
-  (get-posts [this])
-  (update-post [this post])
-  (delete-post [this post]))
-
-(def post-filename "post.json")
+(def post-filename "post.edn")
 (def base-posts-path "resources/posts")
 
 (defn create-path-by-date [year month day]
@@ -50,20 +44,28 @@
          f (clojure.java.io/file path)]
      (read-post f))))
 
-(defn datetime-filename-resolver [base-path filename post]
-  (if (:filename post) (:filename post)))
+(defn datetime-filename-resolver [post]
+  (if (:filename post)
+    (:filename post)))
 
-(defrecord FileBasedPostKeeper [filename-resolver base-path filename]
-  PostKeeper
+(defrecord FileBasedPostKeeper [filename-resolver base-path filename index]
+  core/PostKeeper
   (create-post [this post]
     (let [path (str base-path (filename-resolver post) filename)]
       (clojure.java.io/make-parents path)
       (spit path post)))
-  (get-posts [this] (->> base-path
-                         clojure.java.io/file
-                         file-seq
-                         (filter #(.isDirectory %))
-                         (filter #(.exists %))
-                         read-post))
+  (search-posts [this post-filter index]
+    (-> index
+        post-filter
+        (partial map #(:filename %))
+        (partial map #(clojure.java.io/file))
+        file-seq
+        (partial map read-post)))
+  (get-all-posts [this]
+    (->> base-path
+         clojure.java.io/file
+         file-seq
+         (filter #(.isFile %))
+         (map read-post)))
   (update-post [this post] nil)
   (delete-post [this post] nil))

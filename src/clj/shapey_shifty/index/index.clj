@@ -4,9 +4,8 @@
    [duratom.core :as dur]
    [shapey-shifty.posts.posts-io :as post-io]))
 
-(def index-path (atom "resources/index"))
-
-(s/def ::index (s/keys :req [::filename ::key ::created-date ::stub]))
+(s/def ::index-item (s/keys :req [::filename ::key ::created-date ::stub]))
+(s/def ::index (s/coll-of ::index-item))
 
 (defn create-index [index-path]
   (let [index (dur/duratom :local-file :file-path index-path :init [])]
